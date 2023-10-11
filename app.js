@@ -3,8 +3,8 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth
 import { verifyPasswordResetCode, confirmPasswordReset } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 
 // ID's
-const btn = document.getElementById("submit");
-const inputPassword = document.getElementById('pwd');
+const btn = document.getElementById("confirm-button");
+const inputPassword = document.getElementById('password');
 
 // const link =
 // "https://uearrow.netlify.app?mode=resetPassword&oobCode=KqaDW1NpqATNm9g2z4Jxe-xU2W_gHqejLymXtGsngvcAAAGLFCGIBw&apiKey=AIzaSyBREpqfvoEvgAGumbYB5ueiASibEy5ZfgY&lang=en";

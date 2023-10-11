@@ -1,14 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        background-color: #f0f0f0;
+      }
+
+      nav {
+        top: 0;
+        width: 100%;
+        height: 80px;
+        background: #720000;
+        margin-bottom: 150px;
+      }
+
+      nav img {
+        margin-top: 0;
+        width: 100px;
+        position: absolute;
+        top: 8px;
+        left: 12%;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        padding: 20px;
+        margin: 0 10px 0; /* Updated margin */
+        box-sizing: border-box;
+      }
+
+      .password-container {
+        /* display: flex; */
+        align-items: center;
+        margin-bottom: 10px;
+        /* justify-content: flex-start; */
+      }
+
+      .check-icon {
+        color: #979797;
+        margin-right: 10px;
+      }
+
+      .check-icon.green {
+        color: #31a02b;
+      }
+
+      #confirm-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 60px;
+        width: 100%;
+      }
+
+      #confirm-button {
+        font-size: 14px;
+        padding: 3px 22px;
+        background-color: #c51f1f;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        height: 45px;
+        margin-top: 90px;
+      }
+
+      #confirm-button:disabled {
+        background-color: grey;
+        cursor: not-allowed;
+      }
+
+      #show-password-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+        border: 2px solid #979797;
+        border-radius: 2px;
+      }
+
+      #show-password-checkbox {
+        display: none;
+      }
+
+      #show-password-label {
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      .eye-icon {
+        color: #979797;
+        cursor: pointer;
+      }
+
+      .eye-icon.fa-eye-slash {
+        display: none;
+      }
+
+      #password::placeholder {
+        color: #979797;
+      }
+
+      .requirements {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+      }
+
+      .requirements-text {
+        margin-left: 10px;
+      }
+
+      @media screen and (max-width: 480px) {
+        .container {
+          font-size: 18px;
+        }
+        .check-icon {
+          font-size: 22px;
+        }
+        .password-container {
+          margin-bottom: 14px;
+        }
+        #confirm-button {
+          padding: 16px 32px;
+        }
+        #password {
+          font-size: 20px;
+          padding: 10px;
+          width: 215px !important;
+          outline: none;
+          border: none;
+        }
+      }
+    </style>
   </head>
   <body>
-    <input id="pwd" type="text" />
-    <button id="submit">submit</button>
-    <a href="/.well-known/assetlinks.json">click</a>
+    <div>
+      <nav id="top">
+        <img src="31Logo.png" />
+      </nav>
+    </div>
+    <div class="container">
+      <div id="show-password-container">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          onkeyup="validatePassword()"
+          style="width: 100%"
+        />
+        <label id="show-password-label">
+          <input type="checkbox" id="show-password-checkbox" />
+          <i id="eye-icon" class="eye-icon fas fa-eye"></i>
+          <i id="eye-slash-icon" class="eye-icon fas fa-eye-slash"></i>
+        </label>
+      </div>
+
+      <div class="requirements">
+        <div class="password-container">
+          <i id="length-icon" class="check-icon fas fa-check-circle"></i>
+          <span class="requirements-text">8 characters minimum</span>
+        </div>
+        <div class="password-container">
+          <i
+            id="uppercase-icon"
+            class="check-icon fas fa-check-circle"
+            style="margin-left: 0"
+          ></i>
+          <span class="requirements-text">At least one uppercase</span>
+        </div>
+        <div class="password-container">
+          <i
+            id="numeric-icon"
+            class="check-icon fas fa-check-circle"
+            style="margin-left: 0"
+          ></i>
+          <span class="requirements-text">At least one numeric</span>
+        </div>
+      </div>
+
+      <div id="confirm-button-container">
+        <button id="confirm-button" disabled>CONFIRM</button>
+      </div>
+    </div>
+
+    <script>
+      const passwordInput = document.getElementById("password");
+      const showPasswordCheckbox = document.getElementById(
+        "show-password-checkbox"
+      );
+      const eyeIcon = document.getElementById("eye-icon");
+      const eyeSlashIcon = document.getElementById("eye-slash-icon");
+      const confirmButton = document.getElementById("confirm-button");
+
+      confirmButton.addEventListener("click", function () {
+        // Change the background color to #720000 when clicked
+        confirmButton.style.backgroundColor = "#720000";
+      });
+
+      passwordInput.type = "password";
+      eyeSlashIcon.style.display = "none";
+
+      showPasswordCheckbox.addEventListener("change", function () {
+        if (showPasswordCheckbox.checked) {
+          passwordInput.type = "text";
+          eyeIcon.style.display = "none";
+          eyeSlashIcon.style.display = "inline";
+        } else {
+          passwordInput.type = "password";
+          eyeIcon.style.display = "inline";
+          eyeSlashIcon.style.display = "none";
+        }
+      });
+
+      function validatePassword() {
+        const password = passwordInput.value;
+
+        const isLengthValid = password.length >= 8;
+        const isUppercaseValid = /[A-Z]/.test(password);
+        const isNumericValid = /[0-9]/.test(password);
+
+        const lengthIcon = document.getElementById("length-icon");
+        const uppercaseIcon = document.getElementById("uppercase-icon");
+        const numericIcon = document.getElementById("numeric-icon");
+        const confirmButton = document.getElementById("confirm-button");
+
+        lengthIcon.className = isLengthValid
+          ? "check-icon fas fa-check-circle green"
+          : "check-icon fas fa-check-circle";
+        uppercaseIcon.className = isUppercaseValid
+          ? "check-icon fas fa-check-circle green"
+          : "check-icon fas fa-check-circle";
+        numericIcon.className = isNumericValid
+          ? "check-icon fas fa-check-circle green"
+          : "check-icon fas fa-check-circle";
+
+        const num =
+          (isLengthValid ? 1 : 0) +
+          (isUppercaseValid ? 1 : 0) +
+          (isNumericValid ? 1 : 0);
+        confirmButton.disabled = num !== 3;
+      }
+    </script>
   </body>
+  <script src="app.js"></script>
 </html>
-<script src="app.js"></script>
